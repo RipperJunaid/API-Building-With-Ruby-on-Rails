@@ -16,7 +16,7 @@ gem "solid_cable"
 gem "kamal", require: false
 gem "thruster", require: false
 gem "graphql", "~> 2.5"
-gem 'pg', '~> 1.5'
+gem "graphiql-rails", group: [:development]
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
