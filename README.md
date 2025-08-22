@@ -1,172 +1,103 @@
-# Blog API with GraphQL
+My Blog API Project Journal (Rails + GraphQL)
 
-A simple blog application built with Ruby on Rails and GraphQL that allows you to:
+Day 1 – Starting Out I wanted to build a simple blog API using Ruby on Rails and GraphQL. The idea was to let users:
 
-- Add blog posts
-- View all blog posts  
-- View a specific blog post by ID
+Add blog posts
 
-## Features
+View all posts
 
-- **GraphQL API**: Modern API using GraphQL for flexible data querying
-- **RESTful Design**: Built with Rails conventions
-- **Data Validation**: Model validations ensure data integrity
-- **Interactive Documentation**: GraphiQL interface for testing queries
-- **Sample Data**: Pre-seeded with example blog posts
+View a single post by its ID
 
-## Prerequisites
+I picked GraphQL because it’s flexible and Rails because I’m comfortable with it.
 
-- Ruby 3.4.5 or higher
-- Rails 8.0.2
-- SQLite3
+Day 2 – Setting Things Up What I needed:
 
-## Installation
+Ruby 3.4.5 or newer
 
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   bundle install
-   ```
+Rails 8.0.2
 
-3. Set up the database:
-   ```bash
-   rails db:create
-   rails db:migrate
-   rails db:seed
-   ```
+I created a new Rails app and added the GraphQL gem. Then ran bundle install to get all the dependencies.
 
-4. Start the server:
-   ```bash
-   rails server
-   ```
+Day 3 – Making the Database I created a Post model with a migration. Each post has:
 
-## API Endpoints
+A title (3–255 characters)
 
-### GraphQL Endpoint
-- **URL**: `POST /graphql`
-- **Description**: Main GraphQL endpoint for all blog operations
+A body (at least 10 characters)
 
-### Documentation
-- **URL**: `GET /`
-- **Description**: API documentation and example queries
+Timestamps
 
-### GraphiQL Interface (Development)
-- **URL**: `GET /graphiql`
-- **Description**: Interactive GraphQL IDE for testing queries
+Migration file: create_table :posts do |t| t.string :title, null: false t.text :body, null: false t.timestamps end
 
-## GraphQL Queries
+Day 4 – Adding GraphQL I set up the GraphQL schema and types:
 
-### Get All Posts
-```graphql
-query {
-  posts {
-    id
-    title
-    body
-    createdAt
-    updatedAt
-  }
-}
-```
+PostType for the post fields
 
-### Get Specific Post
-```graphql
-query {
-  post(id: "1") {
-    id
-    title
-    body
-    createdAt
-    updatedAt
-  }
-}
-```
+QueryType to fetch posts
 
-### Create New Post
-```graphql
-mutation {
-  createPost(title: "New Post Title", body: "This is the content of the new post.") {
-    id
-    title
-    body
-    createdAt
-    updatedAt
-  }
-}
-```
+MutationType to create posts
 
-## Testing
+Example queries: Get all posts: query { posts { id title body createdAt updatedAt } }
 
-Run the test suite:
-```bash
-rails test
-```
+Get one post: query { post(id: "1") { id title body createdAt updatedAt } }
 
-## Project Structure
+Create a post: mutation { createPost(title: "New Post", body: "This is the content.") { id title body createdAt updatedAt } }
 
-```
-app/
-├── controllers/
-│   ├── application_controller.rb
-│   └── graphql_controller.rb
-├── graphql/
-│   ├── myapp_schema.rb
-│   └── types/
-│       ├── base_object.rb
-│       ├── base_interface.rb
-│       ├── mutation_type.rb
-│       ├── post_type.rb
-│       └── query_type.rb
-├── models/
-│   ├── application_record.rb
-│   └── post.rb
-└── views/
-    └── layouts/
-        └── application.html.erb
+Day 5 – Testing Stuff I ran rails test to check everything. Also added logging with graphql-rails_logger to see what queries were being made.
 
-config/
-├── routes.rb
-└── initializers/
-    └── graphql.rb
+Day 6 – Quick Start Script I made a script called quick_start.rb to make setup easier. Running ruby quick_start.rb does:
 
-db/
-├── migrate/
-│   └── 20250801032109_create_posts.rb
-└── seeds.rb
-```
+Installs dependencies
 
-## Database Schema
+Sets up the database
 
-### Posts Table
-- `id` (Primary Key)
-- `title` (String, required, 3-255 characters)
-- `body` (Text, required, minimum 10 characters)
-- `created_at` (Timestamp)
-- `updated_at` (Timestamp)
+Starts the server
 
-## Development
+Day 7 – API Endpoints Main routes:
 
-### Adding New Features
+/graphql – for GraphQL queries
 
-1. **New Model**: Create migration and model files
-2. **GraphQL Types**: Add corresponding GraphQL types in `app/graphql/types/`
-3. **Queries/Mutations**: Update `query_type.rb` and `mutation_type.rb`
-4. **Tests**: Add corresponding tests
+/ – shows docs and examples
 
-### Code Style
+/graphiql – GraphQL IDE (only in dev)
 
-This project uses:
-- RuboCop for code linting
-- Rails conventions
-- GraphQL best practices
+/health – system status
 
-## Deployment
+Day 8 – Folder Structure Project layout: app/ controllers/ graphql/ types/ models/ views/ config/ routes.rb initializers/ db/ migrate/ seeds.rb
 
-The application is configured for deployment with:
-- Kamal for deployment
-- Docker support
-- Production-ready configuration
+Day 9 – Adding New Stuff When I added new features, I usually:
 
-## License
+Made a model and migration
 
-This project is open source and available under the [MIT License](LICENSE).
+Added GraphQL types
+
+Updated queries and mutations
+
+Wrote some tests
+
+Used RuboCop for linting and followed Rails conventions.
+
+Day 10 – Getting Ready for Deployment Set it up for production using:
+
+Kamal for deployment
+
+Docker for containers
+
+Day 11 – Switching to PostgreSQL (Optional) To use PostgreSQL instead of SQLite:
+
+Change the Gemfile: gem "pg", "~> 1.5"
+
+Update database.yml
+
+Run: bundle install rails db:create db:migrate db:seed
+
+Day 12 – Fixing Common Problems If something breaks:
+
+Database not working? rails db:create db:migrate db:seed
+
+Gems missing? bundle install
+
+Server acting up? rails server
+
+To reset everything: ruby quick_start.rb
+
+License This project is open source under the MIT License.
